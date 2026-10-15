@@ -22,7 +22,7 @@ export function StoreProvider({children}:{children:React.ReactNode}){
   const timer=useRef<ReturnType<typeof setTimeout>|null>(null)
 
   useEffect(()=>{
-    try{const j=localStorage.getItem(KEY); if(j) setS(JSON.parse(j))}catch{}
+    try{const j=localStorage.getItem(KEY); if(j){const saved=JSON.parse(j); setS({...JSON.parse(JSON.stringify(SEED)),...saved})}}catch{}
     setHydrated(true)
   },[])
 
@@ -42,7 +42,7 @@ export function StoreProvider({children}:{children:React.ReactNode}){
 
   return <Ctx.Provider value={{S,hydrated,update,toast,clSel,setClSel,clJob,setClJob}}>
     {children}
-    {toastMsg&&<div className="toast">{toastMsg}</div>}
+    {toastMsg&&<div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[60] px-4 py-2.5 rounded-lg bg-ink-charcoal text-white font-body-sm text-body-sm shadow-lg flex items-center gap-2"><span className="material-symbols-outlined text-base text-match-green">check_circle</span>{toastMsg}</div>}
   </Ctx.Provider>
 }
 export function useStore(){

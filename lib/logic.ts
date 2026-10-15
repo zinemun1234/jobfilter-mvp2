@@ -105,6 +105,13 @@ export const SEED = {
   ],
   notif:[{text:'웹플로우 마감 D-3 — 지원 마무리하세요',read:false}],
   interviews:[],
+  users:[
+    {id:'U1',name:'이영진',role:'학생',dept:'컴퓨터공학과',joined:today(-30),status:'활성'},
+    {id:'U2',name:'김기업',role:'기업',dept:'넥스테크 인사팀',joined:today(-21),status:'활성'},
+    {id:'U3',name:'박리크루트',role:'기업',dept:'핀테크랩 채용담당',joined:today(-14),status:'활성'},
+    {id:'U4',name:'최관리',role:'관리자',dept:'취업지원센터',joined:today(-60),status:'활성'},
+    {id:'U5',name:'정스팸',role:'기업',dept:'미인증 업체',joined:today(-3),status:'정지'}
+  ],
   seq:100
 };
 
@@ -133,7 +140,8 @@ export function matchScore(profile:Any, l:Any){
   const carPt = /신입|무관/.test(l.career||'') ? 15 : 5;
   const d = dday(l.deadline);
   const dlPt = d<=3?10 : d<=7?8 : d<=14?5 : 3;
-  return {score:Math.round(skillPt+jobPt+carPt+dlPt), hit, miss};
+  return {score:Math.round(skillPt+jobPt+carPt+dlPt), hit, miss,
+    parts:{skill:Math.round(skillPt/55*100), job:Math.round(jobPt/20*100), career:Math.round(carPt/15*100), deadline:Math.round(dlPt/10*100)}};
 }
 // 자소서 채점 (F-16): 분량10·표현15·수치15·STAR25·직군20·문장길이10·협업5
 export function analyzeCoverLetter(text:string, jobType:string){
